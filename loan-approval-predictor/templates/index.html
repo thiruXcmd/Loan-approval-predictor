@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-lg-12 text-center">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-university me-3"></i>
+                Loan Approval Prediction
+            </h1>
+            <p class="lead">
+                Get instant loan approval predictions using advanced machine learning algorithms.
+                Fill out the form below to see if your loan application would likely be approved.
+            </p>
+        </div>
+    </div>
+
+    <!-- Model Performance Section -->
+    {% if metrics %}
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <div class="card bg-secondary">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Model Performance
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-info">{{ "%.2f"|format(metrics.accuracy * 100) }}%</h3>
+                                <small class="text-muted">Model Accuracy</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-info">{{ metrics.model_name or 'ML Model' }}</h3>
+                                <small class="text-muted">Algorithm Used</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-info">{{ metrics.training_samples or 'N/A' }}</h3>
+                                <small class="text-muted">Training Samples</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <form method="POST" action="{{ url_for('retrain_model') }}" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-sync-alt me-1"></i>
+                                        Retrain Model
+                                    </button>
+                                </form>
+                                <small class="text-muted d-block">Update Model</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Personal Information Section -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-8">
+            <div class="card border-info">
+                <div class="card-header bg-info text-dark">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-user me-2"></i>
+                        Step 1: Personal Information
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('predict') }}" id="loanForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="gender" class="form-label text-info">Gender *</label>
+                                    <select class="form-select" id="gender" name="gender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="married" class="form-label text-info">Marital Status *</label>
+                                    <select class="form-select" id="married" name="married" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Yes">Married</option>
+                                        <option value="No">Single</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="dependents" class="form-label text-info">Number of Dependents *</label>
+                                    <select class="form-select" id="dependents" name="dependents" required>
+                                        <option value="">Select Dependents</option>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3+">3+</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="education" class="form-label text-info">Education Level *</label>
+                                    <select class="form-select" id="education" name="education" required>
+                                        <option value="">Select Education</option>
+                                        <option value="Graduate">Graduate</option>
+                                        <option value="Not Graduate">Not Graduate</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="self_employed" class="form-label text-info">Employment Type *</label>
+                                    <select class="form-select" id="self_employed" name="self_employed" required>
+                                        <option value="">Select Employment</option>
+                                        <option value="No">Employed</option>
+                                        <option value="Yes">Self Employed</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="property_area" class="form-label text-info">Property Area *</label>
+                                    <select class="form-select" id="property_area" name="property_area" required>
+                                        <option value="">Select Area</option>
+                                        <option value="Urban">Urban</option>
+                                        <option value="Semiurban">Semi Urban</option>
+                                        <option value="Rural">Rural</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Financial Information Section -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-8">
+            <div class="card border-success">
+                <div class="card-header bg-success text-dark">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-dollar-sign me-2"></i>
+                        Step 2: Financial Information
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="applicant_income" class="form-label text-success">Applicant Income (Monthly) *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-success text-dark">$</span>
+                                    <input type="number" class="form-control" id="applicant_income" 
+                                           name="applicant_income" min="1" step="0.01" required
+                                           placeholder="5000">
+                                </div>
+                                <small class="form-text text-muted">Your monthly gross income</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="coapplicant_income" class="form-label text-success">Co-applicant Income (Monthly)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-success text-dark">$</span>
+                                    <input type="number" class="form-control" id="coapplicant_income" 
+                                           name="coapplicant_income" min="0" step="0.01" value="0"
+                                           placeholder="0">
+                                </div>
+                                <small class="form-text text-muted">Enter 0 if no co-applicant</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="loan_amount" class="form-label text-success">Loan Amount Requested *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-success text-dark">$</span>
+                                    <input type="number" class="form-control" id="loan_amount" 
+                                           name="loan_amount" min="1" step="0.01" required
+                                           placeholder="150000">
+                                </div>
+                                <small class="form-text text-muted">Total amount you want to borrow</small>
+                            </div>
+                        </div>
+                            <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="loan_term" class="form-label text-success">Loan Term *</label>
+                            <select class="form-select" id="loan_term" name="loan_term" required>
+                                <option value="">Select Term</option>
+                                <option value="6">6 months</option>
+                                <option value="12">12 months (1 year)</option>
+                                <option value="24">24 months (2 years)</option>
+                                <option value="48">48 months (4 years)</option>
+                            </select>
+                            <small class="form-text text-muted">How long to repay the loan</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="credit_history" class="form-label text-success">Credit History *</label>
+                            <select class="form-select" id="credit_history" name="credit_history" required>
+                                <option value="">Select Credit History</option>
+                                <option value="1">Good Credit History</option>
+                                <option value="0">Poor/No Credit History</option>
+                            </select>
+                            <small class="form-text text-muted">Your past credit performance</small>
+                        </div>
+
+                        <!-- Financial Summary -->
+                        <div class="mb-3">
+                            <div class="card bg-secondary">
+                                <div class="card-body p-3">
+                                    <h6 class="card-title text-warning mb-2">
+                                        <i class="fas fa-chart-pie me-1"></i>
+                                        Financial Summary
+                                    </h6>
+                                    <div id="financial-summary">
+                                        <small class="text-muted">Fill in the amounts above to see your financial ratio</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Submit Button -->
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-warning btn-lg px-5 text-dark fw-bold">
+                                <i class="fas fa-calculator me-2"></i>
+                                Get Loan Prediction
+                            </button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Information Section -->
+    <div class="row mt-5">
+        <div class="col-lg-12">
+            <div class="card bg-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle me-2"></i>
+                        How It Works
+                    </h5>
+                    <p class="card-text">
+                        Our machine learning model analyzes your application details including income, credit history, 
+                        education, and other factors to predict the likelihood of loan approval. The model has been 
+                        trained on historical loan data and provides instant predictions with confidence scores.
+                    </p>
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <i class="fas fa-edit fa-2x text-info mb-2"></i>
+                            <h6>Fill Form</h6>
+                            <small class="text-muted">Enter your details</small>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="fas fa-brain fa-2x text-success mb-2"></i>
+                            <h6>AI Analysis</h6>
+                            <small class="text-muted">ML model processes data</small>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="fas fa-chart-pie fa-2x text-warning mb-2"></i>
+                            <h6>Get Results</h6>
+                            <small class="text-muted">Instant prediction</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

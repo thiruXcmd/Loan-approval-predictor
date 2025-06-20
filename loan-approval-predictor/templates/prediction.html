@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">Loan Prediction Result</h2>
+
+    <div class="text-center">
+      <h3 class="{% if prediction == 'Approved' %}text-success{% else %}text-danger{% endif %}">
+        {{ prediction }}
+      </h3>
+      <p class="lead">
+        Confidence: <strong>{{ '{:.2f}'.format(confidence) }}%</strong>
+      </p>
+
+      <p>
+        Income-to-Loan Ratio:
+        <i class="fas fa-percentage fa-2x 
+          {% if income_ratio < 0.3 %}
+            text-success
+          {% elif income_ratio < 0.5 %}
+            text-warning
+          {% else %}
+            text-danger
+          {% endif %}
+          mb-2"></i>
+        <span class="ms-2">{{ '{:.2f}'.format(income_ratio * 100) }}%</span>
+      </p>
+    </div>
+
+    <hr>
+
+    <h4 class="mt-4">Applicant Details</h4>
+    <table class="table table-striped">
+      <tbody>
+        <tr><th>Gender</th><td>{{ form_data['Gender'] }}</td></tr>
+        <tr><th>Married</th><td>{{ form_data['Married'] }}</td></tr>
+        <tr><th>Dependents</th><td>{{ form_data['Dependents'] }}</td></tr>
+        <tr><th>Education</th><td>{{ form_data['Education'] }}</td></tr>
+        <tr><th>Self Employed</th><td>{{ form_data['Self_Employed'] }}</td></tr>
+        <tr><th>Applicant Income</th><td>${{ "{:,.2f}".format(form_data['ApplicantIncome']) }}</td></tr>
+        <tr><th>Coapplicant Income</th><td>${{ "{:,.2f}".format(form_data['CoapplicantIncome']) }}</td></tr>
+        <tr><th>Loan Amount</th><td>${{ "{:,.2f}".format(form_data['LoanAmount']) }}</td></tr>
+        <tr><th>Loan Term (months)</th><td>{{ form_data['Loan_Amount_Term'] }}</td></tr>
+        <tr><th>Credit History</th><td>{{ form_data['Credit_History'] }}</td></tr>
+        <tr><th>Property Area</th><td>{{ form_data['Property_Area'] }}</td></tr>
+      </tbody>
+    </table>
+
+    <a href="{{ url_for('index') }}" class="btn btn-primary mt-3">Back to Form</a>
+  </div>
+</div>
+{% endblock %}

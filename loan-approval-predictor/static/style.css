@@ -1,0 +1,298 @@
+/* Custom styles for Loan Approval Prediction App */
+
+:root {
+    --primary-color: 210 100% 50%; /* Blue */
+    --success-color: 120 60% 50%; /* Green */
+    --danger-color: 0 65% 55%; /* Red */
+    --info-color: 195 100% 50%; /* Cyan */
+    --warning-color: 45 100% 50%; /* Yellow */
+    --background: 210 11% 15%; /* Dark background */
+    --surface: 210 11% 20%; /* Card background */
+    --text: 210 11% 90%; /* Light text */
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    background-color: hsl(var(--background));
+    color: hsl(var(--text));
+}
+
+/* Custom card styling */
+.card {
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(40, 40, 50, 0.9), rgba(60, 60, 70, 0.9));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+
+/* Form styling improvements */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: linear-gradient(to bottom right, rgba(50, 50, 60, 0.6), rgba(30, 30, 40, 0.6));
+    color: #fff;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background 0.3s ease;
+}
+
+.form-select option {
+    background-color: #1c1e22;
+    color: #fff;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+}
+
+
+.form-select:focus {
+    background-color: #2a2d31;
+    color: #fff;
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: hsl(var(--primary-color));
+    box-shadow: 0 0 0 0.2rem hsla(var(--primary-color), 0.25);
+}
+
+/* Button styling */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, hsl(var(--primary-color)), hsl(var(--info-color)));
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107, #ffb300);
+    border: none;
+    color: #000 !important;
+    font-weight: 600;
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 193, 7, 0.3);
+    background: linear-gradient(135deg, #ffca28, #ffa000);
+}
+
+/* Progress bar styling */
+.progress {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar {
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+
+/* Table styling */
+.table {
+    color: hsl(var(--text));
+}
+
+.table td, .table th {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Loading animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(40, 124, 227, 0.3);
+    border-radius: 50%;
+    border-top-color: hsl(var(--primary-color));
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .display-5 {
+        font-size: 1.75rem;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Icon animations */
+.fa-check-circle, .fa-times-circle {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Form validation styling */
+.form-control:invalid, .form-select:invalid {
+    border-color: hsl(var(--danger-color));
+}
+
+.form-control:valid, .form-select:valid {
+    border-color: hsl(var(--success-color));
+}
+
+/* Footer styling */
+footer {
+    margin-top: auto;
+}
+
+/* Custom spacing utilities */
+.spacer-lg {
+    height: 4rem;
+}
+
+.spacer-md {
+    height: 2rem;
+}
+
+.spacer-sm {
+    height: 1rem;
+}
+
+/* Card border colors */
+.card.border-success {
+    border-color: hsl(var(--success-color)) !important;
+    border-width: 2px !important;
+}
+
+.card.border-danger {
+    border-color: hsl(var(--danger-color)) !important;
+    border-width: 2px !important;
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+/* Input group styling */
+.input-group-text {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: hsl(var(--text));
+}
+
+/* Enhanced card styling with better colors */
+.card.border-info {
+    border-color: #b0afb3 !important;
+    border-width: 2px !important;
+    box-shadow: 0 4px 8px rgba(23, 162, 184, 0.2);
+}
+
+.card.border-success {
+    border-color: #b6b7b6 !important;
+    border-width: 2px !important;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+}
+
+.bg-info {
+    background: linear-gradient(135deg, #17a2b8, #138496) !important;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, #28a745, #1e7e34) !important;
+}
+
+/* Text color enhancements */
+.text-info {
+    color: #17a2b8 !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+}
+
+/* Financial summary card styling */
+#financial-summary .text-info strong {
+    font-size: 1.1rem;
+    color: #17a2b8;
+}
+
+#financial-summary .text-warning strong {
+    font-size: 1.1rem;
+    color: #ffc107;
+}
+
+#financial-summary .text-success strong {
+    font-size: 1.1rem;
+    color: #28a745;
+}
+
+#financial-summary .text-danger strong {
+    font-size: 1.1rem;
+    color: #dc3545;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary-color));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--info-color));
+}
+.card.border-info .card-header,
+.card.border-success .card-header {
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+}
